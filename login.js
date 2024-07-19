@@ -61,7 +61,7 @@ app.post('/login', (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3001; // Different port for login API
+const PORT = process.env.PORT || 3002; // Different port for login API
 app.listen(PORT, () => {
   console.log(`Login server running on port ${PORT}`);
 });
