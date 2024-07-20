@@ -2,8 +2,17 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
+const cors = require('cors');
 
 const app = express();
+
+
+// Use CORS middleware
+app.use(cors({
+  origin: 'http://localhost:3000', // Adjust this to your React app's URL if needed
+}));
+
+
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
