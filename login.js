@@ -35,7 +35,7 @@ db.connect((err) => {
 });
 
 // Secret key for JWT
-const JWT_SECRET = 'your_jwt_secret'; // Replace with your actual secret
+const JWT_SECRET = 'imgay'; // Replace with your actual secret
 
 // Login endpoint
 app.post('/login', (req, res) => {
