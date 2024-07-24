@@ -73,7 +73,7 @@ app.post('/login', (req, res) => {
       const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
 
       // Set the token as a cookie
-      res.cookie('token', token, { httpOnly: true, secure: false, sameSite: 'Strict' });
+      res.cookie('token', token, { httpOnly: true, secure: false, sameSite: 'Lax' });
 
       res.status(200).json({ message: 'Login successful' });
     });
