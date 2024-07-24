@@ -3,17 +3,19 @@ const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 
 const app = express();
-
 
 // Use CORS middleware
 app.use(cors({
   origin: 'http://localhost:3000', // Adjust this to your React app's URL if needed
+  credentials: true, // Allow credentials
 }));
 
-
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const db = mysql.createConnection({
   host: 'ec2-44-212-120-131.compute-1.amazonaws.com',
@@ -31,6 +33,9 @@ db.connect((err) => {
   }
   console.log('MySQL Connected...');
 });
+
+// Secret key for JWT
+const JWT_SECRET = 'your_jwt_secret'; // Replace with your actual secret
 
 // Login endpoint
 app.post('/login', (req, res) => {
@@ -63,6 +68,12 @@ app.post('/login', (req, res) => {
       if (!isMatch) {
         return res.status(400).json({ message: 'Invalid username or password' });
       }
+
+      // Create a token
+      const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+
+      // Set the token as a cookie
+      res.cookie('token', token, { httpOnly: true, secure: false, sameSite: 'Strict' });
 
       res.status(200).json({ message: 'Login successful' });
     });
